@@ -1,26 +1,193 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: 243 75% 59%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 5% 96%;
+  --secondary-foreground: 240 6% 10%;
+  --accent: 243 75% 95%;
+  --accent-foreground: 243 75% 45%;
+  --background: 0 0% 100%;
+  --foreground: 222 12% 15%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --border: 214 32% 91%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 12% 15%;
+  --success: 142 76% 36%;
+  --warning: 38 92% 50%;
+  --destructive: 0 84% 60%;
+  --ring: 243 75% 59%;
+  --input: 214 32% 91%;
+  --radius: 0.5rem;
+  --radius-md: 0.5rem;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03), 0 1px 3px 0 rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.04), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+
+.dark {
+  --primary: 243 75% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 4% 16%;
+  --secondary-foreground: 240 5% 90%;
+  --accent: 243 50% 20%;
+  --accent-foreground: 243 75% 80%;
+  --background: 222 15% 8%;
+  --foreground: 210 20% 98%;
+  --muted: 217 15% 14%;
+  --muted-foreground: 215 16% 65%;
+  --border: 217 15% 18%;
+  --card: 222 15% 10%;
+  --card-foreground: 210 20% 98%;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2), 0 1px 3px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-ring: hsl(var(--ring));
+  --color-input: hsl(var(--input));
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-popover: hsl(var(--card));
+  --color-popover-foreground: hsl(var(--card-foreground));
+  --font-sans: var(--font-sans);
+  --radius-md: var(--radius-md);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #fdf2f8;
+  background-image:
+    radial-gradient(at 18% 20%, #daf7fb 0px, transparent 66%),
+    radial-gradient(at 82% 25%, #ffe5f4 0px, transparent 55%),
+    radial-gradient(at 50% 85%, #d6deff 0px, transparent 58%);
+  background-attachment: fixed;
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark body,
+body.dark-mode {
+  background: hsl(var(--background));
+  background-image: none;
+}
+
+/* Liquid Glass — Creative Tim David UI */
+.glass {
+  background: hsl(var(--card) / 0.8);
+  -webkit-backdrop-filter: saturate(200%) blur(30px);
+  backdrop-filter: saturate(200%) blur(30px);
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.08);
+  border: 1px solid hsl(var(--border) / 0.25);
+  border-radius: var(--radius);
+}
+.dark .glass {
+  background: hsl(var(--card) / 0.6);
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.3);
+}
+
+.glass-light {
+  background: hsl(var(--background) / 0.35);
+  -webkit-backdrop-filter: saturate(200%) blur(30px);
+  backdrop-filter: saturate(200%) blur(30px);
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.06);
+}
+.dark .glass-light {
+  background: hsl(var(--background) / 0.25);
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.06),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+  background: hsl(var(--card) / 0.8);
+  -webkit-backdrop-filter: saturate(200%) blur(30px);
+  backdrop-filter: saturate(200%) blur(30px);
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.08),
+    0 4px 6px -1px rgb(0 0 0 / 0.04), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  border: 1px solid hsl(var(--border) / 0.25);
+  border-radius: var(--radius);
+  transition: box-shadow 0.2s;
+}
+.glass-card:hover {
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.08),
+    0 10px 15px -3px rgb(0 0 0 / 0.06), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+}
+.dark .glass-card {
+  background: hsl(var(--card) / 0.6);
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.3),
+    0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+}
+.dark .glass-card:hover {
+  box-shadow:
+    inset 0 1px 0px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 0px rgba(0, 0, 0, 0.3),
+    0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+}
+
+/* Shine animation — Liquid Glass surface light sweep */
+.glass-shine {
+  position: relative;
+  overflow: hidden;
+}
+.glass-shine::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  transform: rotate(35deg) translateX(-150%);
+  filter: blur(20px);
+  animation: shine 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.dark .glass-shine::after {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Card spacing — matches original dashboard.html padding */
+.card-original {
+  --card-spacing: 20px;
+}
+
+.card-tight {
+  --card-spacing: 14px;
+}
+@keyframes shine {
+  0% { transform: rotate(35deg) translateX(-150%); }
+  30% { transform: rotate(35deg) translateX(300%); }
+  100% { transform: rotate(35deg) translateX(300%); }
 }
