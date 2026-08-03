@@ -205,7 +205,7 @@ export default function TasksPage() {
           </p>
         </div>
         <Dialog>
-          <DialogTrigger render={<Button size="sm"><Plus className="size-3.5" />Add New Task</Button>} />
+          <DialogTrigger render={<Button size="lg"><Plus className="size-4" />Add New Task</Button>} />
           <DialogContent>
             <DialogHeader>
               <DialogTitle>New Task</DialogTitle>
@@ -217,7 +217,8 @@ export default function TasksPage() {
         </Dialog>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="glass-light rounded-xl p-4 space-y-4">
+        <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
           <Input
@@ -290,6 +291,7 @@ export default function TasksPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
       </div>
     </div>
   )

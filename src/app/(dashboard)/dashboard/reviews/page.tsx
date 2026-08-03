@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Star } from "lucide-react"
 import { reviews, reviewStats } from "@/data/reviews"
+import { EmptyState } from "@/components/sections/shared/empty-state"
 
 const statusStyles: Record<string, string> = {
   approved: "bg-success/10 text-success",
@@ -41,40 +42,44 @@ export default function ReviewsPage() {
           <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Recent Reviews</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/40 text-left text-xs text-muted-foreground uppercase tracking-wider">
-                  <th className="px-4 py-3 font-medium">Customer</th>
-                  <th className="px-4 py-3 font-medium">Product</th>
-                  <th className="px-4 py-3 font-medium">Rating</th>
-                  <th className="px-4 py-3 font-medium">Comment</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reviews.map((r) => (
-                  <tr key={r.id} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
-                    <td className="px-4 py-3 font-medium">{r.customer}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{r.product}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className={`h-3.5 w-3.5 ${i < r.rating ? "fill-amber-400 text-amber-400" : "text-muted"}`} />
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground max-w-xs truncate">{r.comment}</td>
-                    <td className="px-4 py-3">
-                      <Badge className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusStyles[r.status]}`}>{r.status}</Badge>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">{r.date}</td>
+          {reviews.length === 0 ? (
+            <EmptyState title="No reviews yet" description="Reviews will appear here once available." />
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border/40 text-left text-xs text-muted-foreground uppercase tracking-wider">
+                    <th className="px-4 py-3 font-medium">Customer</th>
+                    <th className="px-4 py-3 font-medium">Product</th>
+                    <th className="px-4 py-3 font-medium">Rating</th>
+                    <th className="px-4 py-3 font-medium">Comment</th>
+                    <th className="px-4 py-3 font-medium">Status</th>
+                    <th className="px-4 py-3 font-medium">Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {reviews.map((r) => (
+                    <tr key={r.id} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
+                      <td className="px-4 py-3 font-medium">{r.customer}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{r.product}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-0.5">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star key={i} className={`h-3.5 w-3.5 ${i < r.rating ? "fill-amber-400 text-amber-400" : "text-muted"}`} />
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground max-w-xs truncate">{r.comment}</td>
+                      <td className="px-4 py-3">
+                        <Badge className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusStyles[r.status]}`}>{r.status}</Badge>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">{r.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

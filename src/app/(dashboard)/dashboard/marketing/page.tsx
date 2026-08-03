@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { campaigns } from "@/data/marketing"
+import { EmptyState } from "@/components/sections/shared/empty-state"
 
 const statusStyles: Record<string, string> = {
   live: "bg-success/10 text-success",
@@ -38,36 +39,40 @@ export default function MarketingPage() {
           <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Campaigns</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/40 text-left text-xs text-muted-foreground uppercase tracking-wider">
-                  <th className="px-4 py-3 font-medium">Campaign</th>
-                  <th className="px-4 py-3 font-medium">Channel</th>
-                  <th className="px-4 py-3 font-medium">Reach</th>
-                  <th className="px-4 py-3 font-medium">Engagement</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium">Start Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {campaigns.map((c) => (
-                  <tr key={c.id} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
-                    <td className="px-4 py-3 font-medium">{c.name}</td>
-                    <td className="px-4 py-3">
-                      <span className="text-xs">{channelIcons[c.channel]} {c.channel}</span>
-                    </td>
-                    <td className="px-4 py-3">{c.reach}</td>
-                    <td className="px-4 py-3 font-medium">{c.engagement}</td>
-                    <td className="px-4 py-3">
-                      <Badge className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusStyles[c.status]}`}>{c.status}</Badge>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">{c.startDate}</td>
+          {campaigns.length === 0 ? (
+            <EmptyState title="No campaigns yet" description="Campaigns will appear here once available." />
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border/40 text-left text-xs text-muted-foreground uppercase tracking-wider">
+                    <th className="px-4 py-3 font-medium">Campaign</th>
+                    <th className="px-4 py-3 font-medium">Channel</th>
+                    <th className="px-4 py-3 font-medium">Reach</th>
+                    <th className="px-4 py-3 font-medium">Engagement</th>
+                    <th className="px-4 py-3 font-medium">Status</th>
+                    <th className="px-4 py-3 font-medium">Start Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {campaigns.map((c) => (
+                    <tr key={c.id} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
+                      <td className="px-4 py-3 font-medium">{c.name}</td>
+                      <td className="px-4 py-3">
+                        <span className="text-xs">{channelIcons[c.channel]} {c.channel}</span>
+                      </td>
+                      <td className="px-4 py-3">{c.reach}</td>
+                      <td className="px-4 py-3 font-medium">{c.engagement}</td>
+                      <td className="px-4 py-3">
+                        <Badge className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusStyles[c.status]}`}>{c.status}</Badge>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">{c.startDate}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

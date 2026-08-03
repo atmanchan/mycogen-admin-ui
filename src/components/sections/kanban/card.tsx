@@ -1,9 +1,9 @@
 "use client"
 
-import { type DragEvent } from "react"
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
 import { GripVertical, Calendar, User } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { useDragCtx } from "./drag-context"
 import type { KanbanCard as KanbanCardType } from "@/types/kanban"
 
 const priorityColors: Record<string, string> = {
@@ -16,37 +16,28 @@ const priorityColors: Record<string, string> = {
 interface Props {
   card: KanbanCardType
   index: number
-  colId: string
+  overlay?: boolean
 }
 
-export function KanbanCard({ card, index, colId }: Props) {
-  const { setDragged } = useDragCtx()
+export function KanbanCard({ card, index, overlay }: Props) {
+  const sortable = useSortable({ id: card.id, disabled: overlay })
 
-  const handleDragStart = (e: DragEvent) => {
-    e.dataTransfer.setData("text/plain", JSON.stringify({ colId, idx: index }))
-    e.dataTransfer.effectAllowed = "move"
-    setDragged(card)
+  const style = overlay ? {} : {
+    transform: CSS.Transform.toString(sortable.transform),
+    transition: sortable.transition,
+    opacity: sortable.isDragging ? 0.2 : 1,
   }
 
-  const handleDragEnd = () => setDragged(null)
-
   return (
-    <div
-      draggable
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      className="glass rounded-lg p-3 transition-shadow hover:shadow-md cursor-grab active:cursor-grabbing active:opacity-70"
-    >
-      <div className="flex items-start gap-2">
-        <div className="mt-0.5">
+    <div ref={overlay ? undefined : sortable.setNodeRef} style={style} className="glass rounded-lg p-3 relative transition-shadow hover:shadow-md">
+      <span className={`absolute top-0 right-3 z-10 text-[11px] font-semibold px-1.5 py-0.5 rounded-bl-md rounded-br-md ${priorityColors[card.priority]}`}>
+        {card.priority}
+      </span>
+      <div className="flex items-start gap-2 pr-8">
+        <button {...(overlay ? {} : sortable.attributes)} {...(overlay ? {} : sortable.listeners)} className="mt-0.5 cursor-grab active:cursor-grabbing bg-transparent border-none p-0 rounded focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none">
           <GripVertical className="h-4 w-4 text-muted-foreground/40" />
-        </div>
+        </button>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded ${priorityColors[card.priority]}`}>
-              {card.priority}
-            </span>
-          </div>
           <h4 className="text-sm font-semibold">{card.title}</h4>
           <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{card.description}</p>
           <div className="flex flex-wrap gap-1 mt-2">

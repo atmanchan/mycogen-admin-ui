@@ -19,7 +19,7 @@ export function UserDropdown() {
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(!open)} className="outline-none">
-        <Avatar className="h-8 w-8 cursor-pointer">
+        <Avatar className="h-9 w-9 cursor-pointer">
           <AvatarFallback className="bg-primary/10 text-primary text-xs">JD</AvatarFallback>
         </Avatar>
       </button>

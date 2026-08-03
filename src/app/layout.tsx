@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { ThemeProvider } from "@/providers/theme-provider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,14 +20,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{
           __html: `
             try {
-              const dark = localStorage.getItem('theme') === 'dark' ||
-                (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+              const saved = localStorage.getItem('mycogen-theme')
+              let dark = false
+              if (saved) {
+                dark = !!JSON.parse(saved).isDark
+              } else {
+                dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+              }
               if (dark) document.documentElement.classList.add('dark')
             } catch(e) {}
           `
         }} />
       </head>
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   )
 }

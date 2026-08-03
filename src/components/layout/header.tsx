@@ -6,9 +6,11 @@ import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { SettingsPanel } from "@/components/layout/settings-panel"
 import { NotificationDropdown } from "@/components/layout/notification-dropdown"
 import { UserDropdown } from "@/components/layout/user-dropdown"
+import { useTheme } from "@/providers/theme-provider"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
+  const { settingsOpen } = useTheme()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
@@ -18,7 +20,7 @@ export function Header() {
 
   return (
     <header className={`flex items-center justify-between px-8 py-3 sticky top-0 z-20 transition-all duration-200 ${
-      scrolled ? "glass-light" : "bg-transparent"
+      scrolled || settingsOpen ? "glass-light rounded-bl-xl" : "bg-transparent"
     }`}>
       <div className="flex items-center gap-4 flex-1">
         <div className="relative max-w-sm w-full">

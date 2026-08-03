@@ -4,7 +4,7 @@ import { promotionsData } from "@/data/dashboard"
 
 export function PromotionsSection() {
   return (
-    <Card size="sm" className="bg-card card-tight shadow-sm">
+    <Card size="sm" className="bg-card card-original shadow-sm">
       <CardHeader>
         <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Active Promotions</CardTitle>
       </CardHeader>

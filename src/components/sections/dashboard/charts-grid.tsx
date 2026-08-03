@@ -63,7 +63,7 @@ export function ChartsGrid() {
       </Card>
 
       {/* Retention Chart */}
-      <Card size="sm" className="bg-card card-tight shadow-sm">
+      <Card size="sm" className="bg-card card-original shadow-sm">
         <CardHeader>
           <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Retention</CardTitle>
         </CardHeader>

@@ -13,6 +13,7 @@
   --foreground: 222 12% 15%;
   --muted: 210 40% 96%;
   --muted-foreground: 215 16% 47%;
+  --sidebar-text: 215 14.4% 26.9%;
   --border: 214 32% 91%;
   --card: 0 0% 100%;
   --card-foreground: 222 12% 15%;
@@ -38,10 +39,11 @@
   --background: 222 15% 8%;
   --foreground: 210 20% 98%;
   --muted: 217 15% 14%;
-  --muted-foreground: 215 16% 65%;
+  --muted-foreground: 215 16% 72%;
   --border: 217 15% 18%;
   --card: 222 15% 10%;
   --card-foreground: 210 20% 98%;
+  --sidebar-text: 210 15% 82%;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2), 0 1px 3px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
 }
@@ -190,4 +192,32 @@ body.dark-mode {
   0% { transform: rotate(35deg) translateX(-150%); }
   30% { transform: rotate(35deg) translateX(300%); }
   100% { transform: rotate(35deg) translateX(300%); }
+}
+
+/* Drag glow — emphasized pulse for dragged kanban items */
+.drag-glow {
+  animation: drag-glow 1s ease-in-out infinite;
+}
+@keyframes drag-glow {
+  0%, 100% {
+    box-shadow: 0 20px 40px -12px rgb(124 92 252 / 0.4), 0 0 0 2px rgb(124 92 252 / 0.5);
+  }
+  50% {
+    box-shadow: 0 24px 48px -12px rgb(124 92 252 / 0.6), 0 0 0 4px rgb(124 92 252 / 0.75);
+  }
+}
+
+/* Respect reduced-motion — disable decorative animations */
+@media (prefers-reduced-motion: reduce) {
+  .drag-glow,
+  .glass-shine::after {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

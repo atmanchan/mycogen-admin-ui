@@ -1,176 +1,46 @@
+import { Cuboid, Layers3, Palette, ClipboardList, Table2, ListChecks, LayoutDashboard, Columns3, Bell, CreditCard, MessageSquare, Grip, Loader2, Info, ArrowRight } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Link from "next/link"
 
-export default function UIElementsPage() {
+const items = [
+  { icon: Layers3, label: "Buttons", desc: "Button variants and sizes", href: "/dashboard/ui-elements/buttons" },
+  { icon: Palette, label: "Badges", desc: "Badge variants and sizes", href: "/dashboard/ui-elements/badges" },
+  { icon: ClipboardList, label: "Inputs", desc: "Text inputs and textareas", href: "/dashboard/ui-elements/inputs" },
+  { icon: Table2, label: "Select", desc: "Select dropdowns", href: "/dashboard/ui-elements/select" },
+  { icon: ListChecks, label: "Avatars", desc: "Avatar sizes and fallback", href: "/dashboard/ui-elements/avatars" },
+  { icon: LayoutDashboard, label: "Progress", desc: "Progress bars", href: "/dashboard/ui-elements/progress" },
+  { icon: Columns3, label: "Tabs", desc: "Tabs sizes and variants", href: "/dashboard/ui-elements/tabs" },
+  { icon: Bell, label: "Alerts", desc: "Alert messages", href: "/dashboard/ui-elements/alerts" },
+  { icon: CreditCard, label: "Cards", desc: "Card layouts", href: "/dashboard/ui-elements/cards" },
+  { icon: MessageSquare, label: "Dialogs", desc: "Modal dialogs", href: "/dashboard/ui-elements/dialogs" },
+  { icon: Grip, label: "Dropdowns", desc: "Dropdown menus", href: "/dashboard/ui-elements/dropdowns" },
+  { icon: Table2, label: "Pagination", desc: "Page navigation", href: "/dashboard/ui-elements/pagination" },
+  { icon: Loader2, label: "Spinners", desc: "Loading spinners", href: "/dashboard/ui-elements/spinners" },
+  { icon: Info, label: "Toasts", desc: "Toast notifications", href: "/dashboard/ui-elements/toasts" },
+  { icon: MessageSquare, label: "Tooltips", desc: "Hover tooltips", href: "/dashboard/ui-elements/tooltips" },
+]
+
+export default function UIElementsOverview() {
   return (
     <div className="space-y-5">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">UI Elements</h1>
-        <p className="text-sm text-muted-foreground mt-1">Shadcn UI components showcase.</p>
+        <p className="text-sm text-muted-foreground mt-1">Browse all available components.</p>
       </div>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Buttons</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <Button>Default</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="destructive">Destructive</Button>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <Button size="default">Default</Button>
-            <Button size="sm">Small</Button>
-            <Button size="lg">Large</Button>
-            <Button size="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Badges</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="default">Default</Badge>
-            <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="outline">Outline</Badge>
-            <Badge variant="destructive">Destructive</Badge>
-            <Badge variant="ghost">Ghost</Badge>
-            <Badge className="bg-success/10 text-success">Success</Badge>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Inputs</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <Input type="text" placeholder="Text input" />
-            <Input type="email" placeholder="Email input" />
-            <Input type="password" placeholder="Password input" />
-            <Input type="number" placeholder="Number input" />
-            <Input type="text" placeholder="Disabled input" disabled />
-            <Input type="text" placeholder="Read-only input" readOnly defaultValue="Read only value" />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Select + Textarea</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select an option" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option-1">Option 1</SelectItem>
-                <SelectItem value="option-2">Option 2</SelectItem>
-                <SelectItem value="option-3">Option 3</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select disabled>
-              <SelectTrigger>
-                <SelectValue placeholder="Disabled select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option-1">Option 1</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Textarea placeholder="Type your message here." />
-        </CardContent>
-      </Card>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Avatars</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-4">
-            <Avatar className="size-8">
-              <AvatarFallback className="text-xs">SM</AvatarFallback>
-            </Avatar>
-            <Avatar className="size-10">
-              <AvatarFallback className="text-sm">MD</AvatarFallback>
-            </Avatar>
-            <Avatar className="size-12">
-              <AvatarFallback>LG</AvatarFallback>
-            </Avatar>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Progress</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span>Progress 25%</span>
-              <span className="text-muted-foreground">25%</span>
-            </div>
-            <Progress value={25} />
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span>Progress 50%</span>
-              <span className="text-muted-foreground">50%</span>
-            </div>
-            <Progress value={50} />
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span>Progress 75%</span>
-              <span className="text-muted-foreground">75%</span>
-            </div>
-            <Progress value={75} />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card size="sm" className="bg-card card-original shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tabs</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="tab-1">
-            <TabsList>
-              <TabsTrigger value="tab-1">Tab 1</TabsTrigger>
-              <TabsTrigger value="tab-2">Tab 2</TabsTrigger>
-              <TabsTrigger value="tab-3">Tab 3</TabsTrigger>
-            </TabsList>
-            <TabsContent value="tab-1" className="text-sm text-muted-foreground pt-3">
-              Content for tab 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </TabsContent>
-            <TabsContent value="tab-2" className="text-sm text-muted-foreground pt-3">
-              Content for tab 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </TabsContent>
-            <TabsContent value="tab-3" className="text-sm text-muted-foreground pt-3">
-              Content for tab 3. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {items.map((item) => (
+          <Link key={item.label} href={item.href}>
+            <Card size="sm" className="bg-card card-original shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 cursor-pointer">
+              <CardContent className="flex flex-col items-center text-center py-6">
+                <item.icon className="h-8 w-8 text-primary mb-3" />
+                <CardTitle className="text-sm font-semibold">{item.label}</CardTitle>
+                <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

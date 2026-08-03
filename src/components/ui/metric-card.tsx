@@ -18,7 +18,7 @@ export function MetricCard({
 }: MetricCardProps) {
   const isPositive = trend === "up"
   return (
-    <Card size="sm" className="bg-card card-tight shadow-sm">
+    <Card size="sm" className="bg-card card-original shadow-sm">
       <CardHeader>
         <CardTitle className="flex items-center justify-between w-full">
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{title}</span>

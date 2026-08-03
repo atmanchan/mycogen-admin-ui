@@ -93,7 +93,7 @@ export default function ChartsPage() {
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Monthly Sales</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer role="img" aria-label="Chart: Monthly Sales" width="100%" height={240}>
               <LineChart data={monthlySales}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
@@ -112,7 +112,7 @@ export default function ChartsPage() {
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Product Category Comparison</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer role="img" aria-label="Chart: Product Category Comparison" width="100%" height={240}>
               <BarChart data={productCategories}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="category" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
@@ -132,7 +132,7 @@ export default function ChartsPage() {
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Marketing Channels</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer role="img" aria-label="Chart: Marketing Channels" width="100%" height={240}>
               <PieChart>
                 <Pie data={marketingChannels} cx="50%" cy="50%" innerRadius={50} outerRadius={90} dataKey="value" label={(entry: any) => `${entry.name} ${(entry.percent * 100).toFixed(0)}%`} labelLine={false}>
                   {marketingChannels.map((_, i) => (
@@ -151,7 +151,7 @@ export default function ChartsPage() {
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Product Rating Dimensions</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer role="img" aria-label="Chart: Product Rating Dimensions" width="100%" height={240}>
               <RadarChart data={productRatings}>
                 <PolarGrid stroke="hsl(var(--border))" />
                 <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />
@@ -172,7 +172,7 @@ export default function ChartsPage() {
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Quarterly Goals</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer role="img" aria-label="Chart: Quarterly Goals" width="100%" height={240}>
               <RadialBarChart cx="50%" cy="50%" innerRadius="15%" outerRadius="90%" barSize={18} data={quarterlyGoals}>
                 <RadialBar dataKey="actual" label={{ position: "insideStart", fill: "#fff", fontSize: 11 }} background={{ fill: "hsl(var(--border))" }} fill="#059669" />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -188,7 +188,7 @@ export default function ChartsPage() {
             <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Cumulative User Growth</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer role="img" aria-label="Chart: Cumulative User Growth" width="100%" height={240}>
               <AreaChart data={userGrowth}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" />

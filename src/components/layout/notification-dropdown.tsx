@@ -19,7 +19,7 @@ export function NotificationDropdown() {
 
   return (
     <div ref={ref} className="relative">
-      <Button variant="ghost" size="icon" className="relative" onClick={() => setOpen(!open)}>
+      <Button variant="ghost" size="icon-lg" className="relative" onClick={() => setOpen(!open)}>
         <Bell className="h-[18px] w-[18px]" />
         <span className="absolute top-2 right-2 h-1.5 w-1.5 rounded-full bg-destructive" />
       </Button>
