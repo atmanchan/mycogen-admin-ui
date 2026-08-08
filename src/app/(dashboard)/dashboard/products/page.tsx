@@ -39,7 +39,7 @@ export default function ProductsPage() {
                 </thead>
                 <tbody>
                   {products.map((p) => (
-                    <tr key={p.id} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
+                    <tr key={p.id} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-[10px] font-bold"

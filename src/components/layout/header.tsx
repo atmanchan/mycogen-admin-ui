@@ -1,14 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Search } from "lucide-react"
+import { Search, Menu } from "lucide-react"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { SettingsPanel } from "@/components/layout/settings-panel"
 import { NotificationDropdown } from "@/components/layout/notification-dropdown"
 import { UserDropdown } from "@/components/layout/user-dropdown"
 import { useTheme } from "@/providers/theme-provider"
 
-export function Header() {
+export function Header({ onMenuClick }: { onMenuClick: () => void }) {
   const [scrolled, setScrolled] = useState(false)
   const { settingsOpen } = useTheme()
 
@@ -19,11 +19,17 @@ export function Header() {
   }, [])
 
   return (
-    <header className={`flex items-center justify-between px-8 py-3 sticky top-0 z-20 transition-all duration-200 ${
+    <header className={`flex items-center justify-between px-4 sm:px-8 py-3 sticky top-0 z-20 transition-all duration-200 ${
       scrolled || settingsOpen ? "glass-light rounded-bl-xl" : "bg-transparent"
     }`}>
       <div className="flex items-center gap-4 flex-1">
-        <div className="relative max-w-sm w-full">
+        {/* Hamburger: mobile only */}
+        <button onClick={onMenuClick} aria-label="Open menu"
+          className="lg:hidden p-1.5 rounded-md hover:bg-muted transition-colors cursor-pointer">
+          <Menu className="h-5 w-5" />
+        </button>
+        {/* Search: hidden on mobile, shown from sm */}
+        <div className="relative max-w-sm w-full hidden sm:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"

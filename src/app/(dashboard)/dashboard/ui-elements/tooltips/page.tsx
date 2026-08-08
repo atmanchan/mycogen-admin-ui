@@ -25,9 +25,7 @@ export default function TooltipsPage() {
               <CardTitle className="text-sm font-semibold">Button Tooltip</CardTitle>
               <p className="text-sm text-muted-foreground">Tooltip appears on button hover.</p>
               <Tooltip>
-                <TooltipTrigger>
-                  <Button size="sm">Hover me</Button>
-                </TooltipTrigger>
+                <TooltipTrigger render={<Button size="sm">Hover me</Button>} />
                 <TooltipContent>This is a tooltip</TooltipContent>
               </Tooltip>
             </CardContent>
@@ -51,9 +49,7 @@ export default function TooltipsPage() {
               <CardTitle className="text-sm font-semibold">Custom Content</CardTitle>
               <p className="text-sm text-muted-foreground">Tooltip with multi-line content.</p>
               <Tooltip>
-                <TooltipTrigger>
-                  <Button size="sm" variant="outline">Hover for details</Button>
-                </TooltipTrigger>
+                <TooltipTrigger render={<Button size="sm" variant="outline">Hover for details</Button>} />
                 <TooltipContent className="space-y-1">
                   <p className="font-medium">Details</p>
                   <p className="text-xs">This tooltip has</p>

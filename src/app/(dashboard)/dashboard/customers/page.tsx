@@ -38,7 +38,7 @@ export default function CustomersPage() {
                 </thead>
                 <tbody>
                   {customers.map((c) => (
-                    <tr key={c.id} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
+                    <tr key={c.id} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-9 w-9">

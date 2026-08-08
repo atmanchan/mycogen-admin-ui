@@ -62,7 +62,7 @@ export default function TablesPage() {
               </thead>
               <tbody>
                 {basicUsers.map((u) => (
-                  <tr key={u.name} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
+                  <tr key={u.name} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3 font-medium">{u.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{u.role}</td>
                     <td className="px-4 py-3 text-muted-foreground">{u.email}</td>
@@ -109,7 +109,7 @@ export default function TablesPage() {
               </thead>
               <tbody>
                 {employees.map((e) => (
-                  <tr key={e.name} className="border-b border-border/20 hover:bg-muted/20 transition-colors">
+                  <tr key={e.name} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3 font-medium">{e.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{e.department}</td>
                     <td className="px-4 py-3 text-muted-foreground">{e.age}</td>

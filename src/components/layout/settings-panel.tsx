@@ -48,7 +48,7 @@ export function SettingsPanel({ config = defaultSettingsConfig }: { config?: typ
           <div className={`fixed top-0 right-0 h-full w-80 bg-card border-l border-border/30 z-50 flex flex-col p-5 transition-transform duration-250 ${open ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex items-center justify-between mb-7">
           <span className="text-base font-bold">Settings</span>
-          <Button variant="ghost" size="icon-lg" onClick={() => setSettingsOpen(false)}>
+          <Button variant="ghost" size="icon-lg" aria-label="Close settings" onClick={() => setSettingsOpen(false)}>
             <X className="h-[18px] w-[18px]" />
           </Button>
         </div>

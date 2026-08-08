@@ -276,7 +276,7 @@ export default function AnalyticsPage() {
               </thead>
               <tbody>
                 {orders.map(o => (
-                  <tr key={o.id} className="border-b border-border/20 last:border-0">
+                    <tr key={o.id} className="border-b border-border/30 last:border-0">
                     <td className="px-(--card-spacing) py-2.5 font-medium">{o.id}</td>
                     <td className="px-(--card-spacing) py-2.5 text-muted-foreground">{o.customer}</td>
                     <td className="px-(--card-spacing) py-2.5">

@@ -166,7 +166,7 @@ export default function ProfilePage() {
                       {a.time}
                     </p>
                   </div>
-                  <Button variant="ghost" size="icon-xs" className="mt-0.5">
+                  <Button variant="ghost" size="icon-xs" className="mt-0.5" aria-label="Open activity">
                     <ArrowUpRight className="size-3" />
                   </Button>
                 </div>

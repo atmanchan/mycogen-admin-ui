@@ -5,8 +5,14 @@ import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Breadcrumb } from "@/components/layout/breadcrumb"
@@ -31,9 +37,7 @@ export default function DropdownsPage() {
         <CardContent>
           <p className="text-xs text-muted-foreground mb-2">Basic dropdown with items</p>
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button variant="outline">Open Menu</Button>
-            </DropdownMenuTrigger>
+            <DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
             <DropdownMenuContent>
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
@@ -50,15 +54,52 @@ export default function DropdownsPage() {
         <CardContent>
           <p className="text-xs text-muted-foreground mb-2">Dropdown with grouped items</p>
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button variant="outline">Open Menu</Button>
-            </DropdownMenuTrigger>
+            <DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
             <DropdownMenuContent>
               <DropdownMenuItem>Edit</DropdownMenuItem>
               <DropdownMenuItem>Copy</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Delete</DropdownMenuItem>
               <DropdownMenuItem variant="destructive">Archive</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </CardContent>
+      </Card>
+      <Card size="sm" className="bg-card card-original shadow-sm">
+        <CardHeader>
+          <CardTitle>Basic Menu</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground mb-3">
+            The Basic Menu is a simple yet versatile menu type that displays a list of options
+            in a hierarchical structure. It allows users to navigate through different sections
+            of an app or perform actions by selecting menu items.
+          </p>
+          <DropdownMenu>
+            <DropdownMenuTrigger openOnHover delay={100} closeDelay={100} render={<Button variant="outline">Open Menu</Button>} />
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>Navigation</DropdownMenuLabel>
+                <DropdownMenuItem>
+                  Dashboard
+                  <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  Analytics
+                  <DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>Help Center</DropdownMenuItem>
+                  <DropdownMenuItem>Documentation</DropdownMenuItem>
+                  <DropdownMenuItem>Contact Support</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
         </CardContent>

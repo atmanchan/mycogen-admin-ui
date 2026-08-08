@@ -30,9 +30,9 @@ export function KanbanCard({ card, index, overlay }: Props) {
 
   return (
     <div ref={overlay ? undefined : sortable.setNodeRef} style={style} className="glass rounded-lg p-3 relative transition-shadow hover:shadow-md">
-      <span className={`absolute top-0 right-3 z-10 text-[11px] font-semibold px-1.5 py-0.5 rounded-bl-md rounded-br-md ${priorityColors[card.priority]}`}>
+      <Badge className={`absolute top-0 right-3 z-10 text-[11px] font-semibold px-1.5 py-0.5 h-auto border-0 rounded-t-none rounded-b-md ${priorityColors[card.priority]}`}>
         {card.priority}
-      </span>
+      </Badge>
       <div className="flex items-start gap-2 pr-8">
         <button {...(overlay ? {} : sortable.attributes)} {...(overlay ? {} : sortable.listeners)} className="mt-0.5 cursor-grab active:cursor-grabbing bg-transparent border-none p-0 rounded focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none">
           <GripVertical className="h-4 w-4 text-muted-foreground/40" />

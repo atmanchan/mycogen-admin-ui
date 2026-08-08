@@ -1,4 +1,4 @@
-import { Cuboid, Layers3, Palette, ClipboardList, Table2, ListChecks, LayoutDashboard, Columns3, Bell, CreditCard, MessageSquare, Grip, Loader2, Info, ArrowRight } from "lucide-react"
+import { Cuboid, Layers3, Palette, ClipboardList, Table2, ListChecks, LayoutDashboard, Columns3, Bell, CreditCard, MessageSquare, Grip, Loader2, Info, CircleDot, SquareCheckBig, ToggleRight, SlidersHorizontal, PanelRightOpen, ListCollapse } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -8,12 +8,18 @@ const items = [
   { icon: Palette, label: "Badges", desc: "Badge variants and sizes", href: "/dashboard/ui-elements/badges" },
   { icon: ClipboardList, label: "Inputs", desc: "Text inputs and textareas", href: "/dashboard/ui-elements/inputs" },
   { icon: Table2, label: "Select", desc: "Select dropdowns", href: "/dashboard/ui-elements/select" },
+  { icon: CircleDot, label: "Radio", desc: "Single-choice radio groups", href: "/dashboard/ui-elements/radio" },
+  { icon: SquareCheckBig, label: "Checkbox", desc: "Multi-select checkboxes", href: "/dashboard/ui-elements/checkbox" },
+  { icon: ToggleRight, label: "Switch", desc: "Toggle switches", href: "/dashboard/ui-elements/switch" },
+  { icon: SlidersHorizontal, label: "Slider", desc: "Range sliders", href: "/dashboard/ui-elements/slider" },
   { icon: ListChecks, label: "Avatars", desc: "Avatar sizes and fallback", href: "/dashboard/ui-elements/avatars" },
   { icon: LayoutDashboard, label: "Progress", desc: "Progress bars", href: "/dashboard/ui-elements/progress" },
   { icon: Columns3, label: "Tabs", desc: "Tabs sizes and variants", href: "/dashboard/ui-elements/tabs" },
   { icon: Bell, label: "Alerts", desc: "Alert messages", href: "/dashboard/ui-elements/alerts" },
   { icon: CreditCard, label: "Cards", desc: "Card layouts", href: "/dashboard/ui-elements/cards" },
   { icon: MessageSquare, label: "Dialogs", desc: "Modal dialogs", href: "/dashboard/ui-elements/dialogs" },
+  { icon: PanelRightOpen, label: "Drawer", desc: "Slide-out panels", href: "/dashboard/ui-elements/drawer" },
+  { icon: ListCollapse, label: "Accordion", desc: "Expandable sections", href: "/dashboard/ui-elements/accordion" },
   { icon: Grip, label: "Dropdowns", desc: "Dropdown menus", href: "/dashboard/ui-elements/dropdowns" },
   { icon: Table2, label: "Pagination", desc: "Page navigation", href: "/dashboard/ui-elements/pagination" },
   { icon: Loader2, label: "Spinners", desc: "Loading spinners", href: "/dashboard/ui-elements/spinners" },
