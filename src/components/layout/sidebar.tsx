@@ -14,7 +14,7 @@ import {
   AppWindow, FileText, ShieldX, FileWarning, Bug, CircleCheck, CircleX,
   LayoutTemplate, PanelTop, PanelLeft, Columns2,
   CircleDot, SquareCheckBig, ToggleRight, SlidersHorizontal, PanelRightOpen, ListCollapse,
-  UserPlus, KeyRound,
+  UserPlus, KeyRound, Receipt, PencilLine,
 } from "lucide-react"
 
 type NavItem = { icon: typeof LayoutDashboard; label: string; href: string }
@@ -43,6 +43,8 @@ const navGroups: NavGroup[] = [
     label: "Management",
     items: [
       { icon: ShoppingBag, label: "Orders", href: "/dashboard/orders" },
+      { icon: Receipt, label: "Invoice List", href: "/dashboard/invoices" },
+      { icon: PencilLine, label: "Invoice Editor", href: "/dashboard/invoices/edit" },
       { icon: Package, label: "Products", href: "/dashboard/products" },
       { icon: Users, label: "Customers", href: "/dashboard/customers" },
       { icon: ListChecks, label: "Tasks", href: "/dashboard/tasks" },
@@ -186,6 +188,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
     if (href === "/dashboard/forms") return pathname === "/dashboard/forms"
     if (href === "/dashboard/profile") return pathname === "/dashboard/profile"
     if (href === "/dashboard/layout") return pathname === "/dashboard/layout"
+    if (href === "/dashboard/invoices") return pathname === "/dashboard/invoices"
     if (href.startsWith("/dashboard")) return pathname?.startsWith(href + "/") || pathname === href
     return pathname === href
   }
