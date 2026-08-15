@@ -2,6 +2,82 @@ export type CostItem = { label: string; amount: number; currency: string }
 
 export type PricingMode = "manual" | "costPlus"
 
+export type QtyVariant = "standard" | "area" | "time" | "custom"
+
+export type AreaItem = { label?: string; length: number; width: number; pieces: number }
+
+export type FormulaParam = { key: string; value: number }
+
+export function areaTotal(items: AreaItem[]) {
+  return (items ?? []).reduce((s, a) => s + (a.length || 0) * (a.width || 0) * (a.pieces || 0), 0)
+}
+
+function cellNameToIndex(name: string): { col: number; row: number } | null {
+  const m = /^([A-Za-z]+)(\d+)$/.exec(name)
+  if (!m) return null
+  let col = 0
+  for (const ch of m[1].toUpperCase()) col = col * 26 + (ch.charCodeAt(0) - 64)
+  return { col, row: parseInt(m[2], 10) }
+}
+
+function execRange(fn: string, vals: number[]) {
+  if (!vals.length) return "0"
+  if (fn === "SUM") return String(vals.reduce((s, x) => s + x, 0))
+  if (fn === "AVERAGE") return String(vals.reduce((s, x) => s + x, 0) / vals.length)
+  if (fn === "MIN") return String(Math.min(...vals))
+  return String(Math.max(...vals))
+}
+
+export function evalFormula(expr: string, params: FormulaParam[]) {
+  let e = (expr || "").trim().replace(/^=/, "")
+  const map = new Map<string, number>()
+  for (const p of params ?? []) if (p.key) map.set(p.key.toUpperCase(), p.value || 0)
+
+  // functions with cell ranges, e.g. SUM(A1:A3)
+  e = e.replace(/(SUM|AVERAGE|MIN|MAX)\(([A-Za-z]+\d+):([A-Za-z]+\d+)\)/g, (_m, fn: string, a: string, b: string) => {
+    const ia = cellNameToIndex(a)
+    const ib = cellNameToIndex(b)
+    if (!ia || !ib) return "0"
+    const vals: number[] = []
+    for (const [cell, v] of map) {
+      const idx = cellNameToIndex(cell)
+      if (!idx) continue
+      if (
+        idx.col >= Math.min(ia.col, ib.col) && idx.col <= Math.max(ia.col, ib.col) &&
+        idx.row >= Math.min(ia.row, ib.row) && idx.row <= Math.max(ia.row, ib.row)
+      ) {
+        vals.push(v)
+      }
+    }
+    return execRange(fn, vals)
+  })
+
+  // functions with plain args, e.g. SUM(1,2) or MAX(A1,2)
+  e = e.replace(/(SUM|AVERAGE|MIN|MAX)\(([^()]*)\)/g, (_m, fn: string, args: string) => {
+    const vals = args
+      .split(",")
+      .map((x) => {
+        const t = x.trim().toUpperCase()
+        return map.has(t) ? (map.get(t) as number) : Number(t)
+      })
+      .filter((x) => !Number.isNaN(x))
+    return execRange(fn, vals)
+  })
+
+  // substitute remaining cell references
+  for (const [cell, v] of map) {
+    e = e.replace(new RegExp(`\\b${cell}\\b`, "g"), `(${v})`)
+  }
+
+  if (!/^[0-9+\-*/().\s]+$/.test(e)) return Number.NaN
+  try {
+    // eslint-disable-next-line no-new-func
+    return new Function(`return (${e})`)()
+  } catch {
+    return Number.NaN
+  }
+}
+
 export type DocType = "quote" | "invoice" | "receipt"
 
 export const DOC_FLOW: DocType[] = ["quote", "invoice", "receipt"]
@@ -44,6 +120,10 @@ export type InvoiceLine = {
   costBreakdown?: CostItem[]
   pricingMode?: PricingMode
   marginRate?: number
+  qtyVariant?: QtyVariant
+  areaItems?: AreaItem[]
+  formula?: string
+  formulaParams?: FormulaParam[]
 }
 
 export type InvoiceGroup = {

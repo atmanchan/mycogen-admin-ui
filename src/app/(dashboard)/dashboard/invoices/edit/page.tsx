@@ -294,7 +294,7 @@ export default function InvoiceEditorPage() {
                     <tr className="border-b border-border/40 text-left text-xs text-muted-foreground uppercase tracking-wider">
                       <th className="px-2 py-3 w-8" />
                       <th className="px-2 py-3 font-medium min-w-56">Item</th>
-                      <th className="px-2 py-3 font-medium w-32">Qty / Unit</th>
+                      <th className="px-2 py-3 font-medium w-44">Qty / Unit</th>
                       <th className="px-2 py-3 font-medium w-24">Price</th>
                       <th className="px-2 py-3 font-medium text-right w-24">Amount</th>
                       <th className="px-2 py-3 w-10" />
@@ -476,10 +476,8 @@ export default function InvoiceEditorPage() {
                                 </td>
                                 <td className="px-2 py-3">
                                   <QtyUnit
-                                    qty={row.qty}
-                                    onQtyChange={(v) => updateLine(i, { qty: v })}
-                                    unit={row.unit}
-                                    onUnitChange={(v) => updateLine(i, { unit: v })}
+                                    line={row}
+                                    onUpdate={(patch) => updateLine(i, patch)}
                                     name={`Item ${i + 1}`}
                                   />
                                 </td>
