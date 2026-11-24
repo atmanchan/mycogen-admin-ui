@@ -2,13 +2,41 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Eye, EyeOff } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 export default function SignInPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
+  const [loading, setLoading] = useState(false)
+
+  const validate = () => {
+    const next: typeof errors = {}
+    if (!emailRe.test(email)) next.email = "Enter a valid email address."
+    if (password.length < 6) next.password = "Password must be at least 6 characters."
+    setErrors(next)
+    return Object.keys(next).length === 0
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validate()) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      toast.success("Welcome back!")
+      router.push("/dashboard")
+    }, 700)
+  }
 
   return (
     <div className="w-full max-w-sm space-y-6">
@@ -25,24 +53,39 @@ export default function SignInPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-4" onSubmit={handleSubmit} noValidate>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-muted-foreground">Email</label>
-              <Input type="email" placeholder="name@example.com" />
+              <Input
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                aria-invalid={!!errors.email}
+              />
+              {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-muted-foreground">Password</label>
               <div className="relative">
-                <Input type={showPassword ? "text" : "password"} placeholder="••••••••" />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  aria-invalid={!!errors.password}
+                />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                 </button>
               </div>
+              {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
             </div>
 
             <div className="flex items-center justify-between">
@@ -55,8 +98,9 @@ export default function SignInPage() {
               </Link>
             </div>
 
-            <Button type="submit" className="w-full">
-              Sign In
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading && <Loader2 className="size-4 animate-spin" />}
+              {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
         </CardContent>

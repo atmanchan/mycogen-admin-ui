@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Plus, Trash2 } from "lucide-react"
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,9 +24,17 @@ const initialTasks = [
 export default function AdvancedFormPage() {
   const [mode, setMode] = useState<Mode>("edit")
   const [tasks, setTasks] = useState(initialTasks)
+  const [name, setName] = useState("")
+  const [owner, setOwner] = useState("")
+  const [desc, setDesc] = useState("")
+  const [price, setPrice] = useState(1200)
+  const [qty, setQty] = useState(10)
+  const [discount, setDiscount] = useState(5)
 
   const readonly = mode === "readonly"
   const disabled = mode === "disabled"
+
+  const total = Math.max(0, price * qty * (1 - discount / 100))
 
   const addTask = () => {
     setTasks((prev) => [...prev, { name: "New task", price: "$0", members: [], status: "In Progress" as const }])
@@ -33,6 +42,23 @@ export default function AdvancedFormPage() {
 
   const removeTask = (i: number) => {
     setTasks((prev) => prev.filter((_, idx) => idx !== i))
+  }
+
+  const handleCancel = () => {
+    setName("")
+    setOwner("")
+    setDesc("")
+    setPrice(1200)
+    setQty(10)
+    setDiscount(5)
+    toast("Form reset.")
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!name.trim()) return toast.error("Task name is required.")
+    if (!owner) return toast.error("Please select an owner.")
+    toast.success(`Task "${name}" submitted.`)
   }
 
   return (
@@ -68,7 +94,7 @@ export default function AdvancedFormPage() {
       </Card>
 
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
         aria-readonly={readonly || undefined}
         aria-disabled={disabled || undefined}
         className="space-y-4"
@@ -83,11 +109,11 @@ export default function AdvancedFormPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="adv-name" className="text-sm font-medium block mb-1.5">Task name</label>
-                <Input id="adv-name" placeholder="e.g. Deploy checkout v2" readOnly={readonly} disabled={disabled} />
+                <Input id="adv-name" placeholder="e.g. Deploy checkout v2" value={name} onChange={(e) => setName(e.target.value)} readOnly={readonly} disabled={disabled} />
               </div>
               <div>
                 <label htmlFor="adv-owner" className="text-sm font-medium block mb-1.5">Owner</label>
-                <Select readOnly={readonly} disabled={disabled}>
+                <Select value={owner} onValueChange={(v) => setOwner(v ?? "")} readOnly={readonly} disabled={disabled}>
                   <SelectTrigger id="adv-owner" className="w-full">
                     <SelectValue placeholder="Select owner" />
                   </SelectTrigger>
@@ -104,6 +130,8 @@ export default function AdvancedFormPage() {
                   id="adv-desc"
                   rows={3}
                   placeholder="Describe the task scope and acceptance criteria..."
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
                   readOnly={readonly}
                   disabled={disabled}
                 />
@@ -124,21 +152,21 @@ export default function AdvancedFormPage() {
                 <label htmlFor="adv-price" className="text-sm font-medium block mb-1.5">Unit price</label>
                 <InputGroup>
                   <InputGroupAddon align="inline-start"><span>$</span></InputGroupAddon>
-                  <InputGroupInput id="adv-price" type="number" defaultValue="1200" readOnly={readonly} disabled={disabled} />
+                  <InputGroupInput id="adv-price" type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} readOnly={readonly} disabled={disabled} />
                 </InputGroup>
               </div>
               <div>
                 <label htmlFor="adv-qty" className="text-sm font-medium block mb-1.5">Quantity</label>
-                <Input id="adv-qty" type="number" defaultValue="10" readOnly={readonly} disabled={disabled} />
+                <Input id="adv-qty" type="number" value={qty} onChange={(e) => setQty(Number(e.target.value))} readOnly={readonly} disabled={disabled} />
               </div>
               <div>
                 <label htmlFor="adv-discount" className="text-sm font-medium block mb-1.5">Discount (%)</label>
-                <Input id="adv-discount" type="number" defaultValue="5" readOnly={readonly} disabled={disabled} />
+                <Input id="adv-discount" type="number" value={discount} onChange={(e) => setDiscount(Number(e.target.value))} readOnly={readonly} disabled={disabled} />
               </div>
             </div>
             <div className="rounded-lg bg-muted/40 border border-border/40 px-4 py-3 flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Total amount</span>
-              <span className="font-bold text-lg">$11,400</span>
+              <span className="font-bold text-lg">${total.toLocaleString("en-US", { maximumFractionDigits: 2 })}</span>
             </div>
           </CardContent>
         </Card>
@@ -198,7 +226,7 @@ export default function AdvancedFormPage() {
         </Card>
 
         <div className="flex justify-end gap-3">
-          <Button variant="outline" disabled={disabled}>Cancel</Button>
+          <Button variant="outline" type="button" onClick={handleCancel} disabled={disabled}>Cancel</Button>
           <Button type="submit" disabled={disabled}>Submit</Button>
         </div>
       </form>

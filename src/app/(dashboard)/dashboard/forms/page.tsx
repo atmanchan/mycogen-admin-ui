@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import { Check, Copy, UploadCloud, Bold, Italic, Underline, List, AlignLeft } from "lucide-react"
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -46,6 +47,8 @@ export default function FormsPage() {
   const [time, setTime] = useState("")
   const [range1, setRange1] = useState(50)
   const [range2, setRange2] = useState(75)
+  const [contact, setContact] = useState({ name: "", email: "", subject: "", message: "" })
+  const [contactErrors, setContactErrors] = useState<Record<string, string>>({})
   const copyTimer = useRef<ReturnType<typeof setTimeout>>(null)
 
   const handleCopy = async (text: string) => {
@@ -53,6 +56,18 @@ export default function FormsPage() {
     setCopied(true)
     if (copyTimer.current) clearTimeout(copyTimer.current)
     copyTimer.current = setTimeout(() => setCopied(false), 1500)
+  }
+
+  const submitContact = () => {
+    const errors: Record<string, string> = {}
+    if (!contact.name.trim()) errors.name = "Name is required."
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) errors.email = "Enter a valid email."
+    if (!contact.subject.trim()) errors.subject = "Subject is required."
+    if (contact.message.trim().length < 5) errors.message = "Message must be at least 5 characters."
+    setContactErrors(errors)
+    if (Object.keys(errors).length > 0) return
+    toast.success("Message submitted successfully.")
+    setContact({ name: "", email: "", subject: "", message: "" })
   }
 
   const toggleMulti = (opt: string) => {
@@ -567,22 +582,26 @@ export default function FormsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label htmlFor="name" className="text-xs font-medium text-muted-foreground">Name</label>
-                <Input id="name" type="text" placeholder="Your name" />
+                <Input id="name" type="text" placeholder="Your name" value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} aria-invalid={!!contactErrors.name} />
+                {contactErrors.name && <p className="text-xs text-destructive">{contactErrors.name}</p>}
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="email-6" className="text-xs font-medium text-muted-foreground">Email</label>
-                <Input id="email-6" type="email" placeholder="your@email.com" />
+                <Input id="email-6" type="email" placeholder="your@email.com" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} aria-invalid={!!contactErrors.email} />
+                {contactErrors.email && <p className="text-xs text-destructive">{contactErrors.email}</p>}
               </div>
             </div>
             <div className="space-y-1.5">
               <label htmlFor="subject" className="text-xs font-medium text-muted-foreground">Subject</label>
-              <Input id="subject" type="text" placeholder="Subject" />
+              <Input id="subject" type="text" placeholder="Subject" value={contact.subject} onChange={(e) => setContact({ ...contact, subject: e.target.value })} aria-invalid={!!contactErrors.subject} />
+              {contactErrors.subject && <p className="text-xs text-destructive">{contactErrors.subject}</p>}
             </div>
             <div className="space-y-1.5">
               <label htmlFor="message-3" className="text-xs font-medium text-muted-foreground">Message</label>
-              <Textarea id="message-3" placeholder="Write your message..." />
+              <Textarea id="message-3" placeholder="Write your message..." value={contact.message} onChange={(e) => setContact({ ...contact, message: e.target.value })} aria-invalid={!!contactErrors.message} />
+              {contactErrors.message && <p className="text-xs text-destructive">{contactErrors.message}</p>}
             </div>
-            <Button>Submit</Button>
+            <Button onClick={submitContact}>Submit</Button>
           </div>
         </CardContent>
       </Card>

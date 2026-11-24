@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Check, ChevronLeft, ChevronRight, User, FileText, Share2, CheckCircle2 } from "lucide-react"
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -71,7 +72,7 @@ export default function FormWizardPage() {
 
   const next = () => {
     if (!validateStep(step)) return
-    if (isLast) { setDone(true); return }
+    if (isLast) { setDone(true); toast.success("Form submitted successfully."); return }
     setStep(s => Math.min(s + 1, steps.length - 1))
   }
   const back = () => { setErrors({}); setStep(s => Math.max(s - 1, 0)) }
