@@ -1,14 +1,23 @@
+"use client"
+
+import { useState } from "react"
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-const basicUsers = [
-  { name: "Alice Johnson", role: "Admin", email: "alice@example.com", status: "Active" as const },
-  { name: "Bob Smith", role: "Editor", email: "bob@example.com", status: "Active" as const },
-  { name: "Carol White", role: "Viewer", email: "carol@example.com", status: "Inactive" as const },
-  { name: "Dan Brown", role: "Editor", email: "dan@example.com", status: "Pending" as const },
-  { name: "Eve Davis", role: "Admin", email: "eve@example.com", status: "Active" as const },
+type Status = "Active" | "Inactive" | "Pending"
+type BasicUser = { name: string; role: string; email: string; status: Status }
+
+const initialUsers: BasicUser[] = [
+  { name: "Alice Johnson", role: "Admin", email: "alice@example.com", status: "Active" },
+  { name: "Bob Smith", role: "Editor", email: "bob@example.com", status: "Active" },
+  { name: "Carol White", role: "Viewer", email: "carol@example.com", status: "Inactive" },
+  { name: "Dan Brown", role: "Editor", email: "dan@example.com", status: "Pending" },
+  { name: "Eve Davis", role: "Admin", email: "eve@example.com", status: "Active" },
 ]
 
 const statusStyles: Record<string, string> = {
@@ -33,6 +42,32 @@ function formatSalary(n: number) {
 }
 
 export default function TablesPage() {
+  const [users, setUsers] = useState(initialUsers)
+  const [editIndex, setEditIndex] = useState<number | null>(null)
+  const [draft, setDraft] = useState<BasicUser | null>(null)
+  const [search, setSearch] = useState("")
+
+  const openEdit = (index: number) => {
+    setEditIndex(index)
+    setDraft({ ...users[index] })
+  }
+
+  const closeEdit = () => {
+    setEditIndex(null)
+    setDraft(null)
+  }
+
+  const saveEdit = () => {
+    if (editIndex === null || !draft) return
+    setUsers((prev) => prev.map((u, i) => (i === editIndex ? draft : u)))
+    toast.success(`Updated ${draft.name}.`)
+    closeEdit()
+  }
+
+  const filteredEmployees = employees.filter((e) =>
+    (e.name + " " + e.department).toLowerCase().includes(search.toLowerCase())
+  )
+
   return (
     <div className="space-y-5">
       <div>
@@ -61,8 +96,8 @@ export default function TablesPage() {
                 </tr>
               </thead>
               <tbody>
-                {basicUsers.map((u) => (
-                  <tr key={u.name} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
+                {users.map((u, index) => (
+                  <tr key={u.email} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3 font-medium">{u.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{u.role}</td>
                     <td className="px-4 py-3 text-muted-foreground">{u.email}</td>
@@ -72,7 +107,7 @@ export default function TablesPage() {
                       </Badge>
                     </td>
                     <td className="px-4 py-3">
-                      <Button variant="outline" size="xs">Edit</Button>
+                      <Button variant="outline" size="xs" onClick={() => openEdit(index)}>Edit</Button>
                     </td>
                   </tr>
                 ))}
@@ -90,6 +125,8 @@ export default function TablesPage() {
             </CardTitle>
             <Input
               type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search employees..."
               className="max-w-56 h-7 text-xs"
             />
@@ -108,7 +145,7 @@ export default function TablesPage() {
                 </tr>
               </thead>
               <tbody>
-                {employees.map((e) => (
+                {filteredEmployees.map((e) => (
                   <tr key={e.name} className="border-b border-border/30 hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3 font-medium">{e.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{e.department}</td>
@@ -117,11 +154,67 @@ export default function TablesPage() {
                     <td className="px-4 py-3 text-muted-foreground">{e.joinDate}</td>
                   </tr>
                 ))}
+                {filteredEmployees.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="px-4 py-8 text-center text-sm text-muted-foreground">
+                      No employees match “{search}”.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={editIndex !== null} onOpenChange={(open) => { if (!open) closeEdit() }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit User</DialogTitle>
+            <DialogDescription>Update this user&apos;s details.</DialogDescription>
+          </DialogHeader>
+          {draft && (
+            <div className="space-y-3 py-2">
+              <div className="space-y-1">
+                <p className="text-sm font-medium">Name</p>
+                <Input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium">Email</p>
+                <Input type="email" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium">Role</p>
+                  <Select value={draft.role} onValueChange={(role) => setDraft({ ...draft, role: role ?? draft.role })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Admin">Admin</SelectItem>
+                      <SelectItem value="Editor">Editor</SelectItem>
+                      <SelectItem value="Viewer">Viewer</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium">Status</p>
+                  <Select value={draft.status} onValueChange={(status) => setDraft({ ...draft, status: (status ?? draft.status) as Status })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Active">Active</SelectItem>
+                      <SelectItem value="Inactive">Inactive</SelectItem>
+                      <SelectItem value="Pending">Pending</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" size="sm" onClick={closeEdit}>Cancel</Button>
+            <Button size="sm" onClick={saveEdit} disabled={!draft?.name.trim() || !draft?.email.trim()}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

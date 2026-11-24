@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { Sidebar } from "@/components/layout/sidebar"
 import { Header } from "@/components/layout/header"
+import { Toaster } from "sonner"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -26,6 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
+      <Toaster position="top-right" />
     </div>
   )
 }

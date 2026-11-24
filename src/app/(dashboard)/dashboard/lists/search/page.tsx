@@ -1,5 +1,14 @@
-import { redirect } from "next/navigation"
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 export default function SearchListPage() {
-  redirect("/dashboard/lists/search/articles")
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace("/dashboard/lists/search/articles")
+  }, [router])
+
+  return null
 }

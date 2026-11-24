@@ -1,9 +1,35 @@
+"use client"
+
+import { useState } from "react"
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+const initialProfile = {
+  firstName: "John",
+  lastName: "Doe",
+  email: "john@example.com",
+  role: "admin",
+}
+
 export default function SettingsPage() {
+  const [profile, setProfile] = useState(initialProfile)
+  const [saved, setSaved] = useState(initialProfile)
+
+  const update = (patch: Partial<typeof initialProfile>) => setProfile((p) => ({ ...p, ...patch }))
+
+  const handleSave = () => {
+    setSaved(profile)
+    toast.success("Settings saved successfully.")
+  }
+
+  const handleCancel = () => {
+    setProfile(saved)
+    toast("Changes discarded.")
+  }
+
   return (
     <div className="space-y-5 max-w-2xl">
       <div>
@@ -18,20 +44,20 @@ export default function SettingsPage() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-sm font-medium">First Name</label>
-              <Input defaultValue="John" />
+              <Input value={profile.firstName} onChange={(e) => update({ firstName: e.target.value })} />
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Last Name</label>
-              <Input defaultValue="Doe" />
+              <Input value={profile.lastName} onChange={(e) => update({ lastName: e.target.value })} />
             </div>
           </div>
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Email</label>
-            <Input defaultValue="john@example.com" type="email" />
+            <Input value={profile.email} onChange={(e) => update({ email: e.target.value })} type="email" />
           </div>
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Role</label>
-            <Select defaultValue="admin">
+            <Select value={profile.role} onValueChange={(role) => update({ role: role ?? profile.role })}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="admin">Admin</SelectItem>
@@ -41,8 +67,8 @@ export default function SettingsPage() {
             </Select>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline">Cancel</Button>
-            <Button>Save Changes</Button>
+            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+            <Button onClick={handleSave}>Save Changes</Button>
           </div>
         </CardContent>
       </Card>
